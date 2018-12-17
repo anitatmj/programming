@@ -1,0 +1,449 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Icon=C:\Users\Aspire\Documents\Downloads\Cjdowner-Cryptocurrency-ICON.ico
+#AutoIt3Wrapper_Outfile=Knocking_Port_x86.Exe
+#AutoIt3Wrapper_Outfile_x64=Knocking_Port_x64.Exe
+#AutoIt3Wrapper_Compile_Both=y
+#AutoIt3Wrapper_Res_Fileversion=1.1.0.0
+#AutoIt3Wrapper_Res_LegalCopyright=@anitatmj
+#AutoIt3Wrapper_Res_Language=1057
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
+#include <ButtonConstants.au3>
+#include <ComboConstants.au3>
+#include <EditConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <GUIListBox.au3>
+#include <StaticConstants.au3>
+#include <WindowsConstants.au3>
+#include <file.au3>
+#include <Array.au3>
+
+; File .exe dan konfig.txt
+
+$x_IP = ""			;ip address
+$x_port = ""		;nomor port
+$ListLocation = 1
+$konfig=1  			; Inisialisasi variabel
+
+; membuat file konfig.txt jika belum ada
+if not FileExists(@ScriptDir & "\konfig.txt") Then
+	;buat
+	$file = FileOpen(@ScriptDir & "\konfig.txt", 1)
+	If $file = -1 Then
+		MsgBox(0, "Error", "Tidak Bisa Membuka File.")
+		Exit
+	EndIf
+
+	FileWriteLine($file, "Deskripsi;IPAddress;UDP;1-65535;123abc!@#$%")
+
+	FileClose($file)
+
+EndIf
+
+bacakonfig ()
+
+; Mulai Services
+;=====================
+TCPStartUp()
+UDPStartup()
+;=====================
+
+#Region ### START Koda GUI section ###
+$Formx = GUICreate("APK KNOCKING PORT", 590, 623, 400, 42)
+GUISetBkColor(0x008080)
+$Label67 = GUICtrlCreateLabel("", 20, 595, 530, 35)
+GUICtrlSetFont(-1, 7, 400, 0, "Tahoma")
+$Label60 = GUICtrlCreateLabel("                 Knocking Port TCP/IP", 40, 24, 530, 35)
+GUICtrlSetFont(-1, 17, 800, 0, "Tahoma")
+GUICtrlSetBkColor(-1, 0xFFFFFF)
+
+$Group1 = GUICtrlCreateGroup("", 40, 88, 401, 177)
+$List1 = GUICtrlCreateList("", 208, 104, 217, 149)
+GUICtrlSetFont(-1, 12, 400, 0, "Tahoma")
+
+$Label9 = GUICtrlCreateLabel("DESKRIPSI", 64, 176, 80, 17)
+GUICtrlSetFont(-1, 10, 800, 0, "Tahoma")
+
+$InDesc= GUICtrlCreateInput("", 64, 200, 121, 21)
+GUICtrlSetFont(-1, 9, 800, 0, "Tahoma")
+
+$Group3 = GUICtrlCreateGroup("Tipe Protokol", 40, 320, 137, 257)
+GUICtrlSetFont(-1, 9, 800, 0, "Tahoma")
+$cbox1 = GUICtrlCreateCombo("Pilih", 56, 352, 89, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "TCP|UDP")
+$cbox2 = GUICtrlCreateCombo("Pilih", 56, 384, 89, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "TCP|UDP")
+$cbox3= GUICtrlCreateCombo("Pilih", 56, 416, 89, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "TCP|UDP")
+$cbox4 = GUICtrlCreateCombo("Pilih", 56, 448, 89, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "TCP|UDP")
+$cbox5 = GUICtrlCreateCombo("Pilih", 56, 480, 89, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "TCP|UDP")
+$cbox6= GUICtrlCreateCombo("Pilih", 56, 512, 89, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "TCP|UDP")
+$cbox7 = GUICtrlCreateCombo("Pilih", 56, 544, 89, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "TCP|UDP")
+
+
+$Label2 = GUICtrlCreateLabel("IP ADDRESS", 64, 112, 80, 30)
+GUICtrlSetFont(-1, 10, 800, 0, "Tahoma")
+$InIP = GUICtrlCreateInput("", 64, 136, 121, 21)
+GUICtrlSetFont(-1, 10, 800, 0, "Tahoma")
+
+
+$Label7 = GUICtrlCreateLabel("1", 46, 355, 10, 17)
+$Label8 = GUICtrlCreateLabel("2", 46, 390, 10, 17)
+$Label_3 = GUICtrlCreateLabel("3", 46, 422, 10, 17)
+$Label_4= GUICtrlCreateLabel("4", 46, 454, 10, 17)
+$Label_5 = GUICtrlCreateLabel("5", 46, 485, 10, 17)
+$Label_6 = GUICtrlCreateLabel("6", 46, 515, 10, 17)
+$Label_7= GUICtrlCreateLabel("7", 46, 545, 10, 17)
+
+
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+$Group3 = GUICtrlCreateGroup("Nomor Port", 200, 320, 113, 257)
+GUICtrlSetFont(-1, 9, 800, 0, "Tahoma")
+$In1Port = GUICtrlCreateInput("1-65535", 215, 352, 73, 21)
+$In2Port = GUICtrlCreateInput("", 215, 384, 73, 21)
+$In3Port = GUICtrlCreateInput("", 215, 416, 73, 21)
+$In4Port = GUICtrlCreateInput("", 215, 448, 73, 21)
+$In5Port = GUICtrlCreateInput("", 215, 480, 73, 21)
+$In6Port = GUICtrlCreateInput("", 215, 512, 73, 21)
+$In7Port = GUICtrlCreateInput("", 215, 547, 73, 21)
+
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+$Group4 = GUICtrlCreateGroup("String", 340, 320, 153, 257)
+GUICtrlSetFont(-1, 9, 800, 0, "Tahoma")
+$In1Text = GUICtrlCreateInput("abc123!@#$%", 360, 352, 105, 21)
+$In2Text = GUICtrlCreateInput("", 360, 384, 105, 21)
+$In3Text = GUICtrlCreateInput("", 360, 416, 105, 21)
+$In4Text = GUICtrlCreateInput("", 360, 448, 105, 21)
+$In5Text = GUICtrlCreateInput("", 360, 480, 105, 21)
+$In6Text = GUICtrlCreateInput("", 360, 512, 105, 21)
+$In7Text= GUICtrlCreateInput("", 360, 544, 105, 21)
+
+$BTNKnock = GUICtrlCreateButton("KNOCK", 380, 584, 90, 32)
+GUICtrlSetFont(-1, 10, 800, 0, "MS Sans Serif")
+GUICtrlSetBkColor(-1, 0x004080)
+$BTNTambah  = GUICtrlCreateButton("Tambah/Ubah", 448, 160, 123, 41)
+GUICtrlSetFont(-1, 10, 800, 0, "MS Sans Serif")
+GUICtrlSetBkColor(-1, 0x004080)
+$BTNHapus = GUICtrlCreateButton("Hapus", 448, 224, 123, 41)
+GUICtrlSetFont(-1, 10, 800, 0, "MS Sans Serif")
+GUICtrlSetBkColor(-1, 0x004080)
+
+GUISetState(@SW_SHOW)
+#EndRegion ### END Koda GUI section ###
+
+PopList()
+
+
+While 1
+	$nMsg = GUIGetMsg()
+	Switch $nMsg
+		Case $BTNTambah
+			;
+			$foundOne = 0
+			for $y = 1 to $konfig
+				;mencari list deskripsi dengan memeriksa string
+				if StringLeft($konfig[$y], StringInStr($konfig[$y], ";") - 1) == GUICtrlRead($InDesc) Then
+					; ubah
+					$foundOne = $y
+				EndIf
+			Next
+			if $foundOne == 0 Then
+				;tidak ditemukan --> tambah ke list
+
+				$tempNewEntry = GUICtrlRead($InDesc) & ";" & GUICtrlRead($InIP) & ";" & GUICtrlRead($cbox1) & ";" & GUICtrlRead($In1Port) & ";" & GUICtrlRead($In1Text)
+				if GUICtrlRead($cbox2) <> "pilih" Then
+					;add 2
+					$tempNewEntry = $tempNewEntry & ";" & GUICtrlRead($cbox2) & ";" & GUICtrlRead($In2Port) & ";" & GUICtrlRead($In2Text)
+					if GUICtrlRead($cbox3) <> "pilih" Then
+						;add 3
+						$tempNewEntry = $tempNewEntry & ";" & GUICtrlRead($cbox3) & ";" & GUICtrlRead($In3Port) & ";" & GUICtrlRead($In3Text)
+						if GUICtrlRead($cbox4) <> "pilih" Then
+							;add 4
+							$tempNewEntry = $tempNewEntry & ";" & GUICtrlRead($cbox4) & ";" & GUICtrlRead($In4Port) & ";" & GUICtrlRead($In4Text)
+							if GUICtrlRead($cbox5) <> "pilih" Then
+								;add 5
+								$tempNewEntry = $tempNewEntry & ";" & GUICtrlRead($cbox5) & ";" & GUICtrlRead($In5Port) & ";" & GUICtrlRead($In5Text)
+								if GUICtrlRead($cbox6) <> "pilih" Then
+									;add 6
+									$tempNewEntry = $tempNewEntry & ";" & GUICtrlRead($cbox6) & ";" & GUICtrlRead($In6Port) & ";" & GUICtrlRead($In6Text)
+									if GUICtrlRead($cbox7) <> "pilih" Then
+										;add 7
+										$tempNewEntry = $tempNewEntry & ";" & GUICtrlRead($cbox7) & ";" & GUICtrlRead($In7Port) & ";" & GUICtrlRead($In7Text)
+									EndIf
+								EndIf
+							EndIf
+						EndIf
+					EndIf
+				EndIf
+				_ArrayAdd($konfig, $tempNewEntry) ;tambah
+			Else
+				;tersedia, update/ubah
+				$konfig[$foundOne] = GUICtrlRead($InDesc) & ";" & GUICtrlRead($InIP) & ";" & GUICtrlRead($cbox1) & ";" & GUICtrlRead($In1Port) & ";" & GUICtrlRead($In1Text)
+				if GUICtrlRead($cbox2) <> "pilih" Then
+					;add 2
+					$konfig[$foundOne] = $konfig[$foundOne] & ";" & GUICtrlRead($cbox2) & ";" & GUICtrlRead($In2Port) & ";" & GUICtrlRead($In2Text)
+					if GUICtrlRead($cbox3) <> "pilih" Then
+						;add 3
+						$konfig[$foundOne] = $konfig[$foundOne] & ";" & GUICtrlRead($cbox3) & ";" & GUICtrlRead($In3Port) & ";" & GUICtrlRead($In3Text)
+						if GUICtrlRead($cbox4) <> "pilih" Then
+							;add 4
+							$konfig[$foundOne] = $konfig[$foundOne] & ";" & GUICtrlRead($cbox4) & ";" & GUICtrlRead($In4Port) & ";" & GUICtrlRead($In4Text)
+							if GUICtrlRead($cbox5) <> "pilih" Then
+								;add 5
+								$konfig[$foundOne] = $konfig[$foundOne] & ";" & GUICtrlRead($cbox5) & ";" & GUICtrlRead($In5Port) & ";" & GUICtrlRead($In5Text)
+								if GUICtrlRead($cbox6) <> "pilih" Then
+									;add 6
+									$konfig[$foundOne] = $konfig[$foundOne] & ";" & GUICtrlRead($cbox6) & ";" & GUICtrlRead($In6Port) & ";" & GUICtrlRead($In6Text)
+										if GUICtrlRead($cbox7) <> "pilih" Then
+										;add 7
+										$konfig[$foundOne] = $konfig[$foundOne] & ";" & GUICtrlRead($cbox7) & ";" & GUICtrlRead($In7Port) & ";" & GUICtrlRead($In7Text)
+									EndIf
+								EndIf
+							EndIf
+						EndIf
+					EndIf
+				EndIf
+			EndIf
+			;menulis array dalam file konfig.txt
+			_FileWriteFromArray(@ScriptDir & "\konfig.txt", $konfig,1)
+			bacakonfig()
+			PopList()
+
+		Case $BTNHapus
+			;
+			for $y = 1 to $konfig[0]
+				;menghapus pilihan daftar deskripsi
+				if StringLeft($konfig[$y], StringInStr($konfig[$y], ";") - 1) == GUICtrlRead($InDesc) Then
+					; update
+					_ArrayDelete($konfig, $y)
+					_FileWriteFromArray(@ScriptDir & "\konfig.txt", $konfig,1)
+					bacakonfig()
+					PopList()
+				EndIf
+			Next
+
+		Case $BTNKnock
+			;
+			$x_IP = GUICtrlRead($InIP)
+			$x_port = GUICtrlRead($In1Port)
+			$x_text = ""
+			$x_text = GUICtrlRead($In1Text)
+
+			if GUICtrlRead($cbox1) == "TCP" Then
+				TCPKnock()
+			Else
+				UDPKnock()
+			EndIf
+			sleep(300)
+
+			if GUICtrlRead($cbox2) <> "pilih" Then
+				$x_port = GUICtrlRead($In2Port)
+				$x_textt = ""
+				$x_text = GUICtrlRead($In2Text)
+			EndIf
+
+			if GUICtrlRead($cbox2) == "pilih" Then
+				TCPKnock()
+			Elseif GUICtrlRead($cbox2) == "UDP" Then
+				UDPKnock()
+			EndIf
+			sleep(300)
+
+			if GUICtrlRead($cbox3) <> "pilih" Then
+				$x_port = GUICtrlRead($In3Port)
+				$x_text = ""
+				$x_text = GUICtrlRead($In3Text)
+			EndIf
+			if GUICtrlRead($cbox3) == "TCP" Then
+				TCPKnock()
+			Elseif GUICtrlRead($cbox3) == "UDP" Then
+				UDPKnock()
+			EndIf
+			sleep(300)
+
+			if GUICtrlRead($cbox4) <> "pilih" Then
+				$x_port = GUICtrlRead($In4Port)
+				$x_text = ""
+				$x_text = GUICtrlRead($In4Text)
+			EndIf
+			if GUICtrlRead($cbox4) == "TCP" Then
+				TCPKnock()
+			Elseif GUICtrlRead($cbox4) == "UDP" Then
+				UDPKnock()
+			EndIf
+
+			if GUICtrlRead($cbox5) <> "pilih" Then
+				$x_port = GUICtrlRead($In5Port)
+				$x_text = ""
+				$x_text = GUICtrlRead($In5Text)
+			EndIf
+			if GUICtrlRead($cbox5) == "TCP" Then
+				TCPKnock()
+			Elseif GUICtrlRead($cbox5) == "UDP" Then
+				UDPKnock()
+			EndIf
+			sleep(300)
+
+			if GUICtrlRead($cbox6) <> "pilih" Then
+				$x_port = GUICtrlRead($In6Port)
+				$x_text = ""
+				$x_text = GUICtrlRead($In6Text)
+			EndIf
+			if GUICtrlRead($cbox6) == "TCP" Then
+				TCPKnock()
+			Elseif GUICtrlRead($cbox6) == "UDP" Then
+				UDPKnock()
+			EndIf
+			sleep(300)
+
+			if GUICtrlRead($cbox7) <> "pilih" Then
+				$x_port = GUICtrlRead($In7Port)
+				$x_text = ""
+				$x_text = GUICtrlRead($In7Text)
+			EndIf
+			if GUICtrlRead($cbox7) == "TCP" Then
+				TCPKnock()
+			Elseif GUICtrlRead($cbox7) == "UDP" Then
+				UDPKnock()
+			EndIf
+
+			ToolTip("Knocking Lengkap")
+			sleep(300)
+			ToolTip("")
+
+		case $GUI_EVENT_PRIMARYUP
+			;cek pilihan baru dlm list
+			$tempList = GUICtrlRead($List1)
+			;cek
+			if $tempList <> $ListLocation and $tempList <> "" Then
+				;ubah, update
+				;set lokasi list
+				$ListLocation = $tempList
+
+				;set data
+				GUICtrlSetData($InDesc,"")
+				GUICtrlSetData($InIP,"")
+				GUICtrlSetData($cbox1,"pilih")
+				GUICtrlSetData($In1Port,"")
+				GUICtrlSetData($In1Text,"")
+				GUICtrlSetData($cbox2,"pilih")
+				GUICtrlSetData($In2Port,"")
+				GUICtrlSetData($In2Text,"")
+				GUICtrlSetData($cbox3,"pilih")
+				GUICtrlSetData($In3Port,"")
+				GUICtrlSetData($In3Text,"")
+				GUICtrlSetData($cbox4,"pilih")
+				GUICtrlSetData($In4Port,"")
+				GUICtrlSetData($In4Text,"")
+				GUICtrlSetData($cbox5,"pilh")
+				GUICtrlSetData($In5Port,"")
+				GUICtrlSetData($In5Text,"")
+				GUICtrlSetData($cbox6,"pilih")
+				GUICtrlSetData($In6Port,"")
+				GUICtrlSetData($In6Text,"")
+				GUICtrlSetData($cbox7,"pilih")
+				GUICtrlSetData($In7Port,"")
+				GUICtrlSetData($In7Text,"")
+
+				for $y = 1 to $konfig[0]
+					;
+					if StringLeft($konfig[$y], StringInStr($konfig[$y], ";") - 1) == $ListLocation Then
+						$ConfigLine = $konfig[$y]
+					EndIf
+				Next
+
+				;dari listbox
+				GUICtrlSetData($InDesc, $ListLocation)
+				GUICtrlSetData($InIP, StringMid($ConfigLine,StringInStr($ConfigLine,";") + 1, StringInStr($ConfigLine,";",0,2) - StringInStr($ConfigLine,";") - 1))
+				GUICtrlSetData($cbox1, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,2) + 1, StringInStr($ConfigLine,";",0,3) - StringInStr($ConfigLine,";",0,2) - 1))
+				GUICtrlSetData($In1Port, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,3) + 1, StringInStr($ConfigLine,";",0,4) - StringInStr($ConfigLine,";",0,3) - 1))
+				GUICtrlSetData($In1Text, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,4) + 1, StringInStr($ConfigLine,";",0,5) - StringInStr($ConfigLine,";",0,4) - 1))
+				$tempstring = StringReplace($ConfigLine, ";", ";")
+				$tempCount = @extended
+
+				if $tempCount > 4 Then
+
+					GUICtrlSetData($cbox2,  StringMid($ConfigLine,StringInStr($ConfigLine,";",0,5) + 1, StringInStr($ConfigLine,";",0,6) - StringInStr($ConfigLine,";",0,5) - 1))
+					GUICtrlSetData($In2Port, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,6) + 1, StringInStr($ConfigLine,";",0,7) - StringInStr($ConfigLine,";",0,6) - 1))
+					GUICtrlSetData($In2Text, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,7) + 1, StringInStr($ConfigLine,";",0,8) - StringInStr($ConfigLine,";",0,7) - 1))
+				EndIf
+				if $tempCount > 7 Then
+
+					GUICtrlSetData($cbox3, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,8) + 1, StringInStr($ConfigLine,";",0,9) - StringInStr($ConfigLine,";",0,8) - 1))
+					GUICtrlSetData($In3Port, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,9) + 1, StringInStr($ConfigLine,";",0,10) - StringInStr($ConfigLine,";",0,9) - 1))
+					GUICtrlSetData($In3Text, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,10) + 1, StringInStr($ConfigLine,";",0,11) - StringInStr($ConfigLine,";",0,10) - 1))
+				EndIf
+
+				if $tempCount > 10 Then
+
+					GUICtrlSetData($cbox4, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,11) + 1, StringInStr($ConfigLine,";",0,12) - StringInStr($ConfigLine,";",0,11) - 1))
+					GUICtrlSetData($In4Port, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,12) + 1, StringInStr($ConfigLine,";",0,13) - StringInStr($ConfigLine,";",0,12) - 1))
+					GUICtrlSetData($In4Text, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,13) + 1, StringInStr($ConfigLine,";",0,14)- StringInStr($ConfigLine,";",0,13) -1))
+				EndIf
+				if $tempCount > 13 Then
+
+					GUICtrlSetData($cbox5, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,14) + 1, StringInStr($ConfigLine,";",0,15) - StringInStr($ConfigLine,";",0,14) - 1))
+					GUICtrlSetData($In5Port, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,15) + 1, StringInStr($ConfigLine,";",0,16) - StringInStr($ConfigLine,";",0,15) - 1))
+					GUICtrlSetData($In5Text, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,16) + 1, StringInStr($ConfigLine,";",0,17) - StringInStr($ConfigLine,";",0,16) - 1))
+				EndIf
+
+					if $tempCount > 16 Then
+
+					GUICtrlSetData($cbox6, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,17) + 1, StringInStr($ConfigLine,";",0,18) - StringInStr($ConfigLine,";",0,17) - 1))
+					GUICtrlSetData($In6Port, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,18) + 1, StringInStr($ConfigLine,";",0,19) - StringInStr($ConfigLine,";",0,18) - 1))
+					GUICtrlSetData($In6Text, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,19) + 1, StringInStr($ConfigLine,";",0,20) - StringInStr($ConfigLine,";",0,19) - 1))
+					EndIf
+
+				if $tempCount > 19 Then
+
+					GUICtrlSetData($cbox7, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,20) + 1, StringInStr($ConfigLine,";",0,21) - StringInStr($ConfigLine,";",0,20) - 1))
+					GUICtrlSetData($In7Port, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,21) + 1, StringInStr($ConfigLine,";",0,22) - StringInStr($ConfigLine,";",0,21) - 1))
+					GUICtrlSetData($In7Text, StringMid($ConfigLine,StringInStr($ConfigLine,";",0,4) + 1))
+				EndIf
+
+
+			EndIf
+
+		Case $GUI_EVENT_CLOSE
+			TCPShutdown()
+			UDPShutdown()
+			Exit
+
+	EndSwitch
+WEnd
+;###################
+
+Func PopList ()
+	;daftar list deskipsi
+	GUICtrlSetData($List1, "")
+	for $x = 1 to $konfig[0]
+		GUICtrlSetData($List1, StringLeft($konfig[$x], StringInStr($konfig[$x], ";") - 1))
+	Next
+EndFunc
+
+Func bacakonfig ()
+	Global $konfig
+	If Not _FileReadToArray(@ScriptDir & "\konfig.txt",$konfig) Then
+		MsgBox(4096,"Error", " Error reading log to Array     error:" & @error)
+		Exit
+	EndIf
+EndFunc
+
+;fungsi knock / ketuk
+Func TCPKnock ()
+	ToolTip("knocking " & $x_IP & " " & $x_port)
+	run("""" & @ScriptDir & "\TCP.exe"" " & $x_IP & " " & $x_port)
+	ToolTip("")
+EndFunc
+
+; fungsi untuk mengetuk port UDP
+Func UDPKnock ()
+	ToolTip("knocking " & $x_IP & " " & $x_port)
+	$socket = UDPOpen($x_IP, $x_port)
+	$status = UDPSend($socket, $x_text)
+	UDPCloseSocket($socket)
+	ToolTip("")
+EndFunc
